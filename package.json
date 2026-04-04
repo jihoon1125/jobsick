@@ -11,7 +11,8 @@
     "test:run": "vitest --run",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "prepare": "husky"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.4",
@@ -42,7 +43,9 @@
     "@vitejs/plugin-react": "^6.0.1",
     "eslint": "^9",
     "eslint-config-next": "16.2.2",
+    "husky": "^9.1.7",
     "jsdom": "^29.0.1",
+    "lint-staged": "^16.4.0",
     "msw": "^2.12.14",
     "prettier": "^3.8.1",
     "tailwindcss": "^4",
