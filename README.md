@@ -21,31 +21,31 @@ npm run dev
 
 ## Tech Stack
 
-| Category | Technology |
-|----------|------------|
-| Framework | Next.js 14 (App Router) |
-| Language | TypeScript (strict) |
-| Styling | Tailwind CSS + shadcn/ui |
-| State | Jotai + TanStack Query |
-| Database | Supabase (PostgreSQL) |
-| Auth | Supabase Auth (GitHub OAuth) |
-| AI | Claude API (BYOK) |
-| Crawling | Playwright |
-| Testing | Vitest + Testing Library + MSW |
-| Deploy | Vercel |
+| Category  | Technology                     |
+| --------- | ------------------------------ |
+| Framework | Next.js 14 (App Router)        |
+| Language  | TypeScript (strict)            |
+| Styling   | Tailwind CSS + shadcn/ui       |
+| State     | Jotai + TanStack Query         |
+| Database  | Supabase (PostgreSQL)          |
+| Auth      | Supabase Auth (GitHub OAuth)   |
+| AI        | Claude API (BYOK)              |
+| Crawling  | Playwright                     |
+| Testing   | Vitest + Testing Library + MSW |
+| Deploy    | Vercel                         |
 
 ## Scripts
 
-| Command | Description |
-|---------|-------------|
-| `npm run dev` | Start dev server (Turbopack) |
-| `npm run build` | Production build |
-| `npm run lint` | Run ESLint |
-| `npm run typecheck` | Run TypeScript type check |
-| `npm run test` | Run tests (watch mode) |
-| `npm run test:run` | Run tests once |
-| `npm run format` | Format code with Prettier |
-| `npm run format:check` | Check formatting |
+| Command                | Description                  |
+| ---------------------- | ---------------------------- |
+| `npm run dev`          | Start dev server (Turbopack) |
+| `npm run build`        | Production build             |
+| `npm run lint`         | Run ESLint                   |
+| `npm run typecheck`    | Run TypeScript type check    |
+| `npm run test`         | Run tests (watch mode)       |
+| `npm run test:run`     | Run tests once               |
+| `npm run format`       | Format code with Prettier    |
+| `npm run format:check` | Check formatting             |
 
 ## Project Structure
 
