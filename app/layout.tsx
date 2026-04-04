@@ -14,8 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Jobsick",
-  description:
-    "AI 기반 채용공고 분석 서비스",
+  description: "AI 기반 채용공고 분석 서비스",
 };
 
 export default function RootLayout({
@@ -32,9 +31,7 @@ export default function RootLayout({
         h-full antialiased
       `}
     >
-      <body className="min-h-full flex flex-col">
-        {children}
-      </body>
+      <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );
 }
