@@ -20,8 +20,10 @@
   "auth": {
     "login": "Sign In",
     "logout": "Sign Out",
-    "loginWithGithub": "Sign in with GitHub",
-    "loginDescription": "Sign in with your GitHub account."
+    "loginWithGithub": "Continue with GitHub",
+    "loginWithGoogle": "Continue with Google",
+    "loginDescription": "Get started with your social account.",
+    "or": "or"
   },
   "dashboard": {
     "title": "Dashboard",

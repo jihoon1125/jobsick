@@ -20,8 +20,10 @@
   "auth": {
     "login": "로그인",
     "logout": "로그아웃",
-    "loginWithGithub": "GitHub로 로그인",
-    "loginDescription": "GitHub 계정으로 로그인하세요."
+    "loginWithGithub": "GitHub로 계속하기",
+    "loginWithGoogle": "Google로 계속하기",
+    "loginDescription": "소셜 계정으로 간편하게 시작하세요.",
+    "or": "또는"
   },
   "dashboard": {
     "title": "대시보드",
