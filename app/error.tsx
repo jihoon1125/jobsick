@@ -1,21 +1,22 @@
 "use client";
 
-interface ErrorPageProps {
+import { useTranslations } from "next-intl";
+import { Button } from "@/components/ui/button";
+
+interface Props {
   error: Error & { digest?: string };
   reset: () => void;
 }
 
-export default function ErrorPage({ error, reset }: ErrorPageProps) {
+export default function ErrorPage({ error, reset }: Props) {
+  const t = useTranslations("error");
+  const tc = useTranslations("common");
+
   return (
     <main className="flex flex-1 flex-col items-center justify-center gap-4 p-8">
-      <h2 className="text-xl font-semibold">문제가 발생했습니다</h2>
+      <h2 className="text-xl font-semibold">{t("pageTitle")}</h2>
       <p className="text-muted-foreground">{error.message}</p>
-      <button
-        onClick={reset}
-        className="rounded-lg bg-primary px-4 py-2 text-primary-foreground"
-      >
-        다시 시도
-      </button>
+      <Button onClick={reset}>{tc("retry")}</Button>
     </main>
   );
 }

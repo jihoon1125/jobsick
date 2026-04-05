@@ -1,0 +1,40 @@
+{
+  "common": {
+    "appName": "Jobsick",
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "retry": "Try again",
+    "back": "Back",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "confirm": "Confirm"
+  },
+  "home": {
+    "title": "Jobsick",
+    "description": "Paste a job posting URL or text to get a comprehensive analysis — resume matching, company reputation, and salary fit.",
+    "cta": "Get Started",
+    "learnMore": "Learn More"
+  },
+  "auth": {
+    "login": "Sign In",
+    "logout": "Sign Out",
+    "loginWithGithub": "Sign in with GitHub",
+    "loginDescription": "Sign in with your GitHub account."
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "analysisHistory": "Analysis History",
+    "noHistory": "No analysis history yet."
+  },
+  "analyze": {
+    "title": "Job Posting Analysis",
+    "inputPlaceholder": "Enter a job posting URL or text."
+  },
+  "error": {
+    "pageTitle": "Something went wrong",
+    "notFound": "Page not found",
+    "goHome": "Go back home"
+  }
+}

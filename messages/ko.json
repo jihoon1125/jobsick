@@ -1,0 +1,40 @@
+{
+  "common": {
+    "appName": "Jobsick",
+    "loading": "로딩 중...",
+    "error": "오류가 발생했습니다",
+    "retry": "다시 시도",
+    "back": "뒤로",
+    "save": "저장",
+    "cancel": "취소",
+    "delete": "삭제",
+    "edit": "수정",
+    "confirm": "확인"
+  },
+  "home": {
+    "title": "Jobsick",
+    "description": "채용공고 URL 또는 텍스트를 입력하면 이력서 매칭, 회사 평판, 연봉 적합도를 종합 분석해드립니다.",
+    "cta": "시작하기",
+    "learnMore": "더 알아보기"
+  },
+  "auth": {
+    "login": "로그인",
+    "logout": "로그아웃",
+    "loginWithGithub": "GitHub로 로그인",
+    "loginDescription": "GitHub 계정으로 로그인하세요."
+  },
+  "dashboard": {
+    "title": "대시보드",
+    "analysisHistory": "분석 기록",
+    "noHistory": "아직 분석 기록이 없습니다."
+  },
+  "analyze": {
+    "title": "채용공고 분석",
+    "inputPlaceholder": "채용공고 URL 또는 텍스트를 입력하세요."
+  },
+  "error": {
+    "pageTitle": "문제가 발생했습니다",
+    "notFound": "페이지를 찾을 수 없습니다",
+    "goHome": "홈으로 돌아가기"
+  }
+}
