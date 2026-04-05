@@ -53,7 +53,7 @@ npm run dev
 app/                  # Next.js App Router pages & API routes
 components/
 ├── ui/               # shadcn/ui components
-├── common/           # Shared (header, footer, spinner, etc.)
+├── shared/           # Shared (header, footer, spinner, etc.)
 ├── job/              # Job posting components
 ├── analysis/         # Analysis result components
 └── resume/           # Resume components

@@ -41,6 +41,14 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# storybook
+storybook-static/
+
+# playwright
+/test-results/
+/playwright-report/
+/blob-report/
+
 # vscode
 .vscode/*
 !.vscode/settings.json

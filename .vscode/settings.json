@@ -3,7 +3,7 @@
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
+    "source.fixAll.eslint": "explicit"
   },
   "editor.tabSize": 2,
   "tailwindCSS.experimental.classRegex": [
@@ -11,5 +11,11 @@
   ],
   "files.eol": "\n",
   "typescript.preferences.quoteStyle": "double",
-  "typescript.tsdk": "node_modules/typescript/lib"
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.expand": false,
+  "explorer.fileNesting.patterns": {
+    "*.tsx": "${capture}.stories.tsx, ${capture}.test.tsx",
+    "*.ts": "${capture}.test.ts"
+  }
 }
