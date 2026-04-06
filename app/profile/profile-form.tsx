@@ -1,21 +1,20 @@
 "use client";
 
 import { useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useReducer } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Badge } from "@/components/ui/badge";
 import { TagInput, type Tag } from "@/components/common/tag-input";
 
 interface FormState {
   positions: Tag[];
   skills: Tag[];
+  regions: Tag[];
   experienceYears: number;
   salaryMin: string;
   salaryMax: string;
-  preferredRegions: string[];
-  regionInput: string;
   workTypes: string[];
   currentCompany: string;
   currentPosition: string;
@@ -28,8 +27,12 @@ interface FormState {
 type Action =
   | { type: "SET_POSITIONS"; tags: Tag[] }
   | { type: "SET_SKILLS"; tags: Tag[] }
-  | { type: "SET_FIELD"; field: string; value: string | number }
-  | { type: "SET_REGIONS"; regions: string[] }
+  | { type: "SET_REGIONS"; tags: Tag[] }
+  | {
+      type: "SET_FIELD";
+      field: string;
+      value: string | number;
+    }
   | { type: "TOGGLE_WORK_TYPE"; workType: string }
   | {
       type: "SET_SUGGESTIONS";
@@ -39,14 +42,27 @@ type Action =
   | { type: "SET_SAVING"; saving: boolean }
   | { type: "LOAD"; state: Partial<FormState> };
 
+const REGION_SUGGESTIONS: Tag[] = [
+  { id: "region-seoul", label: "서울" },
+  { id: "region-pangyo", label: "판교" },
+  { id: "region-gangnam", label: "강남" },
+  { id: "region-seongnam", label: "성남" },
+  { id: "region-incheon", label: "인천" },
+  { id: "region-busan", label: "부산" },
+  { id: "region-daejeon", label: "대전" },
+  { id: "region-daegu", label: "대구" },
+  { id: "region-gwangju", label: "광주" },
+  { id: "region-jeju", label: "제주" },
+  { id: "region-remote", label: "원격 근무" },
+];
+
 const INITIAL_STATE: FormState = {
   positions: [],
   skills: [],
+  regions: [],
   experienceYears: 0,
   salaryMin: "",
   salaryMax: "",
-  preferredRegions: [],
-  regionInput: "",
   workTypes: [],
   currentCompany: "",
   currentPosition: "",
@@ -62,12 +78,12 @@ function reducer(state: FormState, action: Action): FormState {
       return { ...state, positions: action.tags };
     case "SET_SKILLS":
       return { ...state, skills: action.tags };
-    case "SET_FIELD":
-      return { ...state, [action.field]: action.value };
     case "SET_REGIONS":
+      return { ...state, regions: action.tags };
+    case "SET_FIELD":
       return {
         ...state,
-        preferredRegions: action.regions,
+        [action.field]: action.value,
       };
     case "TOGGLE_WORK_TYPE": {
       const has = state.workTypes.includes(action.workType);
@@ -77,11 +93,18 @@ function reducer(state: FormState, action: Action): FormState {
       return { ...state, workTypes: next };
     }
     case "SET_SUGGESTIONS":
-      return { ...state, [action.field]: action.tags };
+      return {
+        ...state,
+        [action.field]: action.tags,
+      };
     case "SET_SAVING":
       return { ...state, saving: action.saving };
     case "LOAD":
-      return { ...state, ...action.state, loaded: true };
+      return {
+        ...state,
+        ...action.state,
+        loaded: true,
+      };
   }
 }
 
@@ -90,6 +113,7 @@ const WORK_TYPE_OPTIONS = ["remote", "hybrid", "onsite"] as const;
 function ProfileForm() {
   const t = useTranslations("profile");
   const tc = useTranslations("common");
+  const router = useRouter();
   const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
 
   // Load suggestions
@@ -126,10 +150,17 @@ function ProfileForm() {
       if (!profile) return;
 
       const positions = tags.filter(
-        (t: Tag & { category: string }) => t.category === "position"
+        (tag: Tag & { category: string }) => tag.category === "position"
       );
       const skills = tags.filter(
-        (t: Tag & { category: string }) => t.category === "skill"
+        (tag: Tag & { category: string }) => tag.category === "skill"
+      );
+
+      const regions: Tag[] = (profile.preferred_regions ?? []).map(
+        (r: string) => ({
+          id: `region-${r}`,
+          label: r,
+        })
       );
 
       dispatch({
@@ -137,10 +168,10 @@ function ProfileForm() {
         state: {
           positions,
           skills,
+          regions,
           experienceYears: profile.experience_years ?? 0,
           salaryMin: profile.salary_min?.toString() ?? "",
           salaryMax: profile.salary_max?.toString() ?? "",
-          preferredRegions: profile.preferred_regions ?? [],
           workTypes: profile.work_types ?? [],
           currentCompany: profile.current_company ?? "",
           currentPosition: profile.current_position ?? "",
@@ -174,9 +205,11 @@ function ProfileForm() {
     dispatch({ type: "SET_SAVING", saving: true });
 
     const tagIds = [
-      ...state.positions.map((t) => t.id),
-      ...state.skills.map((t) => t.id),
+      ...state.positions.map((tag) => tag.id),
+      ...state.skills.map((tag) => tag.id),
     ];
+
+    const preferredRegions = state.regions.map((tag) => tag.label);
 
     await fetch("/api/profile", {
       method: "PUT",
@@ -187,7 +220,7 @@ function ProfileForm() {
         experienceYears: state.experienceYears,
         salaryMin: state.salaryMin ? Number(state.salaryMin) : null,
         salaryMax: state.salaryMax ? Number(state.salaryMax) : null,
-        preferredRegions: state.preferredRegions,
+        preferredRegions,
         workTypes: state.workTypes,
         currentCompany: state.currentCompany || null,
         currentPosition: state.currentPosition || null,
@@ -196,36 +229,8 @@ function ProfileForm() {
     });
 
     dispatch({ type: "SET_SAVING", saving: false });
-  }, [state]);
-
-  const handleAddRegion = useCallback(
-    (e: React.KeyboardEvent) => {
-      if (e.key !== "Enter") return;
-      e.preventDefault();
-      const value = state.regionInput.trim();
-      if (value === "" || state.preferredRegions.includes(value)) return;
-      dispatch({
-        type: "SET_REGIONS",
-        regions: [...state.preferredRegions, value],
-      });
-      dispatch({
-        type: "SET_FIELD",
-        field: "regionInput",
-        value: "",
-      });
-    },
-    [state.regionInput, state.preferredRegions]
-  );
-
-  const handleRemoveRegion = useCallback(
-    (region: string) => {
-      dispatch({
-        type: "SET_REGIONS",
-        regions: state.preferredRegions.filter((r) => r !== region),
-      });
-    },
-    [state.preferredRegions]
-  );
+    router.push("/dashboard");
+  }, [state, router]);
 
   const workTypeButtons = WORK_TYPE_OPTIONS.map((wt) => {
     const isActive = state.workTypes.includes(wt);
@@ -247,18 +252,6 @@ function ProfileForm() {
     );
   });
 
-  const regionBadges = state.preferredRegions.map((region) => (
-    <Badge key={region} variant="secondary" className="gap-1">
-      {region}
-      <button
-        onClick={() => handleRemoveRegion(region)}
-        className="rounded-full p-0.5 hover:bg-muted"
-      >
-        ×
-      </button>
-    </Badge>
-  ));
-
   return (
     <div className="flex flex-col gap-6">
       {/* Position */}
@@ -267,7 +260,12 @@ function ProfileForm() {
         <TagInput
           suggestions={state.positionSuggestions}
           selected={state.positions}
-          onChange={(tags) => dispatch({ type: "SET_POSITIONS", tags })}
+          onChange={(tags) =>
+            dispatch({
+              type: "SET_POSITIONS",
+              tags,
+            })
+          }
           placeholder={t("positionPlaceholder")}
         />
       </div>
@@ -346,19 +344,10 @@ function ProfileForm() {
       {/* Region */}
       <div className="flex flex-col gap-2">
         <Label>{t("region")}</Label>
-        {state.preferredRegions.length > 0 && (
-          <div className="flex flex-wrap gap-1.5">{regionBadges}</div>
-        )}
-        <Input
-          value={state.regionInput}
-          onChange={(e) =>
-            dispatch({
-              type: "SET_FIELD",
-              field: "regionInput",
-              value: e.target.value,
-            })
-          }
-          onKeyDown={handleAddRegion}
+        <TagInput
+          suggestions={REGION_SUGGESTIONS}
+          selected={state.regions}
+          onChange={(tags) => dispatch({ type: "SET_REGIONS", tags })}
           placeholder={t("regionPlaceholder")}
         />
       </div>

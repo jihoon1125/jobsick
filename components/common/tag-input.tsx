@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { X } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
@@ -26,6 +26,23 @@ function TagInput({
   allowCustom = true,
 }: Props) {
   const [query, setQuery] = useState("");
+  const [open, setOpen] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(-1);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const listRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(e.target as Node)
+      ) {
+        setOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, []);
 
   const filtered = useMemo(() => {
     const selectedIds = new Set(selected.map((t) => t.id));
@@ -33,7 +50,7 @@ function TagInput({
 
     return suggestions
       .filter((t) => !selectedIds.has(t.id))
-      .filter((t) => t.label.toLowerCase().includes(lower))
+      .filter((t) => lower === "" || t.label.toLowerCase().includes(lower))
       .slice(0, 10);
   }, [suggestions, selected, query]);
 
@@ -49,10 +66,13 @@ function TagInput({
     return !existsInSuggestions && !alreadySelected;
   }, [allowCustom, query, suggestions, selected]);
 
+  const totalItems = filtered.length + (showCustomOption ? 1 : 0);
+
   const addTag = useCallback(
     (tag: Tag) => {
       onChange([...selected, tag]);
       setQuery("");
+      setActiveIndex(-1);
     },
     [selected, onChange]
   );
@@ -75,18 +95,52 @@ function TagInput({
     addTag(customTag);
   }, [query, addTag]);
 
+  useEffect(() => {
+    if (activeIndex < 0 || !listRef.current) return;
+    const items = listRef.current.querySelectorAll("[data-item]");
+    const item = items[activeIndex];
+    if (item) {
+      item.scrollIntoView({ block: "nearest" });
+    }
+  }, [activeIndex]);
+
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
-      if (e.key === "Enter") {
+      if (e.key === "ArrowDown") {
         e.preventDefault();
-        if (filtered.length > 0) {
+        if (!open) {
+          setOpen(true);
+          return;
+        }
+        setActiveIndex((prev) => (prev < totalItems - 1 ? prev + 1 : 0));
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        setActiveIndex((prev) => (prev > 0 ? prev - 1 : totalItems - 1));
+      } else if (e.key === "Enter") {
+        e.preventDefault();
+        if (activeIndex >= 0 && activeIndex < filtered.length) {
+          addTag(filtered[activeIndex]);
+        } else if (activeIndex === filtered.length && showCustomOption) {
+          handleCustomAdd();
+        } else if (filtered.length > 0) {
           addTag(filtered[0]);
         } else if (showCustomOption) {
           handleCustomAdd();
         }
+      } else if (e.key === "Escape") {
+        setOpen(false);
+        setActiveIndex(-1);
       }
     },
-    [filtered, showCustomOption, addTag, handleCustomAdd]
+    [
+      open,
+      totalItems,
+      activeIndex,
+      filtered,
+      showCustomOption,
+      addTag,
+      handleCustomAdd,
+    ]
   );
 
   const selectedBadges = selected.map((tag) => (
@@ -101,18 +155,22 @@ function TagInput({
     </Badge>
   ));
 
-  const suggestionItems = filtered.map((tag) => (
+  const suggestionItems = filtered.map((tag, i) => (
     <button
       key={tag.id}
-      onClick={() => addTag(tag)}
-      className="w-full rounded px-3 py-1.5 text-left text-sm hover:bg-accent"
+      data-item
+      onMouseDown={() => addTag(tag)}
+      onMouseEnter={() => setActiveIndex(i)}
+      className={`w-full rounded px-3 py-1.5 text-left text-sm ${
+        i === activeIndex ? "bg-accent" : "hover:bg-accent"
+      }`}
     >
       {tag.label}
     </button>
   ));
 
   return (
-    <div className="flex flex-col gap-2">
+    <div ref={containerRef} className="flex flex-col gap-2">
       {selected.length > 0 && (
         <div className="flex flex-wrap gap-1.5">{selectedBadges}</div>
       )}
@@ -121,15 +179,26 @@ function TagInput({
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={handleKeyDown}
+          onFocus={() => setOpen(true)}
           placeholder={placeholder}
+          autoComplete="off"
         />
-        {query.length > 0 && (filtered.length > 0 || showCustomOption) && (
-          <div className="absolute z-10 mt-1 w-full rounded-md border bg-popover p-1 shadow-md">
+        {open && (filtered.length > 0 || showCustomOption) && (
+          <div
+            ref={listRef}
+            className="absolute z-10 mt-1 max-h-48 w-full overflow-y-auto rounded-md border bg-popover p-1 shadow-md"
+          >
             {suggestionItems}
             {showCustomOption && (
               <button
-                onClick={handleCustomAdd}
-                className="w-full rounded px-3 py-1.5 text-left text-sm text-muted-foreground hover:bg-accent"
+                data-item
+                onMouseDown={handleCustomAdd}
+                onMouseEnter={() => setActiveIndex(filtered.length)}
+                className={`w-full rounded px-3 py-1.5 text-left text-sm text-muted-foreground ${
+                  activeIndex === filtered.length
+                    ? "bg-accent"
+                    : "hover:bg-accent"
+                }`}
               >
                 &quot;{query.trim()}&quot; 추가
               </button>

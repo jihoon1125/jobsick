@@ -128,9 +128,17 @@
   }
   html {
     @apply font-sans;
+    color-scheme: light;
+  }
+  .dark {
+    color-scheme: dark;
   }
   button,
   [role="button"] {
     cursor: pointer;
+  }
+  input,
+  textarea {
+    caret-color: var(--foreground);
   }
 }
