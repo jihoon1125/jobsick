@@ -10,6 +10,24 @@ export async function GET(request: Request) {
     const { error } = await supabase.auth.exchangeCodeForSession(code);
 
     if (!error) {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (user) {
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("experience_years")
+          .eq("id", user.id)
+          .single();
+
+        const isNewUser = !profile || profile.experience_years === 0;
+
+        if (isNewUser) {
+          return NextResponse.redirect(`${origin}/profile`);
+        }
+      }
+
       return NextResponse.redirect(`${origin}/dashboard`);
     }
   }
