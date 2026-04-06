@@ -62,7 +62,14 @@ export async function PUT(request: Request) {
   }
 
   // Update tags: delete old, insert new
-  await supabase.from("profile_tags").delete().eq("profile_id", user.id);
+  const { error: deleteError } = await supabase
+    .from("profile_tags")
+    .delete()
+    .eq("profile_id", user.id);
+
+  if (deleteError) {
+    console.error("[profile] delete tags", deleteError);
+  }
 
   const tagRows = body.tagIds.map((tagId: string) => ({
     profile_id: user.id,
@@ -70,7 +77,13 @@ export async function PUT(request: Request) {
   }));
 
   if (tagRows.length > 0) {
-    await supabase.from("profile_tags").insert(tagRows);
+    const { error: insertError } = await supabase
+      .from("profile_tags")
+      .insert(tagRows);
+
+    if (insertError) {
+      console.error("[profile] insert tags", insertError);
+    }
   }
 
   return Response.json({ success: true });
