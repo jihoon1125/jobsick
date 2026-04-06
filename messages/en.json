@@ -34,6 +34,28 @@
     "title": "Job Posting Analysis",
     "inputPlaceholder": "Enter a job posting URL or text."
   },
+  "profile": {
+    "title": "Profile Settings",
+    "position": "Desired Position",
+    "positionPlaceholder": "Search or add position",
+    "skills": "Skills",
+    "skillsPlaceholder": "Search or add skill",
+    "experience": "Experience",
+    "experienceYears": "years",
+    "salaryRange": "Desired Salary",
+    "salaryUnit": "만원",
+    "salaryMin": "Min",
+    "salaryMax": "Max",
+    "region": "Preferred Region",
+    "regionPlaceholder": "Add region",
+    "workType": "Work Type",
+    "remote": "Remote",
+    "hybrid": "Hybrid",
+    "onsite": "Onsite",
+    "currentCompany": "Current Company",
+    "currentPosition": "Current Position",
+    "saved": "Profile saved successfully."
+  },
   "error": {
     "pageTitle": "Something went wrong",
     "notFound": "Page not found",

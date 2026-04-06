@@ -34,6 +34,28 @@
     "title": "채용공고 분석",
     "inputPlaceholder": "채용공고 URL 또는 텍스트를 입력하세요."
   },
+  "profile": {
+    "title": "프로필 설정",
+    "position": "희망 직군",
+    "positionPlaceholder": "직군 검색 또는 추가",
+    "skills": "기술 스택",
+    "skillsPlaceholder": "스킬 검색 또는 추가",
+    "experience": "경력",
+    "experienceYears": "년",
+    "salaryRange": "희망 연봉",
+    "salaryUnit": "만원",
+    "salaryMin": "최소",
+    "salaryMax": "최대",
+    "region": "근무 지역",
+    "regionPlaceholder": "지역 추가",
+    "workType": "근무 형태",
+    "remote": "재택",
+    "hybrid": "하이브리드",
+    "onsite": "출근",
+    "currentCompany": "현재 회사",
+    "currentPosition": "현재 직무",
+    "saved": "프로필이 저장되었습니다."
+  },
   "error": {
     "pageTitle": "문제가 발생했습니다",
     "notFound": "페이지를 찾을 수 없습니다",
