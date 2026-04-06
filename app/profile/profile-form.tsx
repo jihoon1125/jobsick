@@ -363,6 +363,7 @@ function ProfileForm() {
         <Label>{t("currentCompany")}</Label>
         <Input
           value={state.currentCompany}
+          autoComplete="off"
           onChange={(e) =>
             dispatch({
               type: "SET_FIELD",
@@ -378,6 +379,7 @@ function ProfileForm() {
         <Label>{t("currentPosition")}</Label>
         <Input
           value={state.currentPosition}
+          autoComplete="off"
           onChange={(e) =>
             dispatch({
               type: "SET_FIELD",

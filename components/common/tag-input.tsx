@@ -40,8 +40,10 @@ function TagInput({
         setOpen(false);
       }
     }
-    document.addEventListener("mousedown", handleClick);
-    return () => document.removeEventListener("mousedown", handleClick);
+    // Use click (fires after mousedown/up)
+    // so the DOM is still intact at check time
+    document.addEventListener("click", handleClick);
+    return () => document.removeEventListener("click", handleClick);
   }, []);
 
   const filtered = useMemo(() => {
@@ -159,7 +161,10 @@ function TagInput({
     <button
       key={tag.id}
       data-item
-      onMouseDown={() => addTag(tag)}
+      onMouseDown={(e) => {
+        e.preventDefault();
+        addTag(tag);
+      }}
       onMouseEnter={() => setActiveIndex(i)}
       className={`w-full rounded px-3 py-1.5 text-left text-sm ${
         i === activeIndex ? "bg-accent" : "hover:bg-accent"
@@ -192,7 +197,10 @@ function TagInput({
             {showCustomOption && (
               <button
                 data-item
-                onMouseDown={handleCustomAdd}
+                onMouseDown={(e) => {
+                  e.preventDefault();
+                  handleCustomAdd();
+                }}
                 onMouseEnter={() => setActiveIndex(filtered.length)}
                 className={`w-full rounded px-3 py-1.5 text-left text-sm text-muted-foreground ${
                   activeIndex === filtered.length
