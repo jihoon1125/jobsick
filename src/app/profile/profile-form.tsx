@@ -21,7 +21,6 @@ interface FormState {
   positionSuggestions: Tag[];
   skillSuggestions: Tag[];
   saving: boolean;
-  loaded: boolean;
 }
 
 type Action =
@@ -34,43 +33,22 @@ type Action =
       value: string | number;
     }
   | { type: "TOGGLE_WORK_TYPE"; workType: string }
-  | {
-      type: "SET_SUGGESTIONS";
-      field: "positionSuggestions" | "skillSuggestions";
-      tags: Tag[];
-    }
-  | { type: "SET_SAVING"; saving: boolean }
-  | { type: "LOAD"; state: Partial<FormState> };
+  | { type: "SET_SKILL_SUGGESTIONS"; tags: Tag[] }
+  | { type: "SET_SAVING"; saving: boolean };
 
 const REGION_SUGGESTIONS: Tag[] = [
-  { id: "region-seoul", label: "서울" },
-  { id: "region-pangyo", label: "판교" },
-  { id: "region-gangnam", label: "강남" },
-  { id: "region-seongnam", label: "성남" },
-  { id: "region-incheon", label: "인천" },
-  { id: "region-busan", label: "부산" },
-  { id: "region-daejeon", label: "대전" },
-  { id: "region-daegu", label: "대구" },
-  { id: "region-gwangju", label: "광주" },
-  { id: "region-jeju", label: "제주" },
-  { id: "region-remote", label: "원격 근무" },
+  { id: "region-서울", label: "서울" },
+  { id: "region-판교", label: "판교" },
+  { id: "region-강남", label: "강남" },
+  { id: "region-성남", label: "성남" },
+  { id: "region-인천", label: "인천" },
+  { id: "region-부산", label: "부산" },
+  { id: "region-대전", label: "대전" },
+  { id: "region-대구", label: "대구" },
+  { id: "region-광주", label: "광주" },
+  { id: "region-제주", label: "제주" },
+  { id: "region-원격 근무", label: "원격 근무" },
 ];
-
-const INITIAL_STATE: FormState = {
-  positions: [],
-  skills: [],
-  regions: [],
-  experienceYears: 0,
-  salaryMin: "",
-  salaryMax: "",
-  workTypes: [],
-  currentCompany: "",
-  currentPosition: "",
-  positionSuggestions: [],
-  skillSuggestions: [],
-  saving: false,
-  loaded: false,
-};
 
 function reducer(state: FormState, action: Action): FormState {
   switch (action.type) {
@@ -92,94 +70,63 @@ function reducer(state: FormState, action: Action): FormState {
         : [...state.workTypes, action.workType];
       return { ...state, workTypes: next };
     }
-    case "SET_SUGGESTIONS":
+    case "SET_SKILL_SUGGESTIONS":
       return {
         ...state,
-        [action.field]: action.tags,
+        skillSuggestions: action.tags,
       };
     case "SET_SAVING":
       return { ...state, saving: action.saving };
-    case "LOAD":
-      return {
-        ...state,
-        ...action.state,
-        loaded: true,
-      };
   }
 }
 
 const WORK_TYPE_OPTIONS = ["remote", "hybrid", "onsite"] as const;
 
-function ProfileForm() {
+interface Props {
+  initialPositions: Tag[];
+  initialSkills: Tag[];
+  initialRegions: Tag[];
+  initialExperienceYears: number;
+  initialSalaryMin: string;
+  initialSalaryMax: string;
+  initialWorkTypes: string[];
+  initialCurrentCompany: string;
+  initialCurrentPosition: string;
+  positionSuggestions: Tag[];
+  skillSuggestions: Tag[];
+}
+
+function ProfileForm({
+  initialPositions,
+  initialSkills,
+  initialRegions,
+  initialExperienceYears,
+  initialSalaryMin,
+  initialSalaryMax,
+  initialWorkTypes,
+  initialCurrentCompany,
+  initialCurrentPosition,
+  positionSuggestions,
+  skillSuggestions,
+}: Props) {
   const t = useTranslations("profile");
   const tc = useTranslations("common");
   const router = useRouter();
-  const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
 
-  // Load suggestions
-  useEffect(() => {
-    async function loadSuggestions() {
-      const [posRes, skillRes] = await Promise.all([
-        fetch("/api/tags?category=position"),
-        fetch("/api/tags?category=skill"),
-      ]);
-      const posData = await posRes.json();
-      const skillData = await skillRes.json();
-
-      dispatch({
-        type: "SET_SUGGESTIONS",
-        field: "positionSuggestions",
-        tags: posData.tags,
-      });
-      dispatch({
-        type: "SET_SUGGESTIONS",
-        field: "skillSuggestions",
-        tags: skillData.tags,
-      });
-    }
-    loadSuggestions();
-  }, []);
-
-  // Load existing profile
-  useEffect(() => {
-    async function loadProfile() {
-      const res = await fetch("/api/profile");
-      if (!res.ok) return;
-
-      const { profile, tags } = await res.json();
-      if (!profile) return;
-
-      const positions = tags.filter(
-        (tag: Tag & { category: string }) => tag.category === "position"
-      );
-      const skills = tags.filter(
-        (tag: Tag & { category: string }) => tag.category === "skill"
-      );
-
-      const regions: Tag[] = (profile.preferred_regions ?? []).map(
-        (r: string) => ({
-          id: `region-${r}`,
-          label: r,
-        })
-      );
-
-      dispatch({
-        type: "LOAD",
-        state: {
-          positions,
-          skills,
-          regions,
-          experienceYears: profile.experience_years ?? 0,
-          salaryMin: profile.salary_min?.toString() ?? "",
-          salaryMax: profile.salary_max?.toString() ?? "",
-          workTypes: profile.work_types ?? [],
-          currentCompany: profile.current_company ?? "",
-          currentPosition: profile.current_position ?? "",
-        },
-      });
-    }
-    loadProfile();
-  }, []);
+  const [state, dispatch] = useReducer(reducer, {
+    positions: initialPositions,
+    skills: initialSkills,
+    regions: initialRegions,
+    experienceYears: initialExperienceYears,
+    salaryMin: initialSalaryMin,
+    salaryMax: initialSalaryMax,
+    workTypes: initialWorkTypes,
+    currentCompany: initialCurrentCompany,
+    currentPosition: initialCurrentPosition,
+    positionSuggestions,
+    skillSuggestions,
+    saving: false,
+  });
 
   // Update skill suggestions when position changes
   useEffect(() => {
@@ -192,8 +139,7 @@ function ProfileForm() {
 
       if (data.skills.length > 0) {
         dispatch({
-          type: "SET_SUGGESTIONS",
-          field: "skillSuggestions",
+          type: "SET_SKILL_SUGGESTIONS",
           tags: data.skills,
         });
       }
@@ -254,7 +200,6 @@ function ProfileForm() {
 
   return (
     <div className="flex flex-col gap-6">
-      {/* Position */}
       <div className="flex flex-col gap-2">
         <Label>{t("position")}</Label>
         <TagInput
@@ -270,7 +215,6 @@ function ProfileForm() {
         />
       </div>
 
-      {/* Skills */}
       <div className="flex flex-col gap-2">
         <Label>{t("skills")}</Label>
         <TagInput
@@ -281,7 +225,6 @@ function ProfileForm() {
         />
       </div>
 
-      {/* Experience */}
       <div className="flex flex-col gap-2">
         <Label>{t("experience")}</Label>
         <div className="flex items-center gap-2">
@@ -304,7 +247,6 @@ function ProfileForm() {
         </div>
       </div>
 
-      {/* Salary */}
       <div className="flex flex-col gap-2">
         <Label>{t("salaryRange")}</Label>
         <div className="flex items-center gap-2">
@@ -341,7 +283,6 @@ function ProfileForm() {
         </div>
       </div>
 
-      {/* Region */}
       <div className="flex flex-col gap-2">
         <Label>{t("region")}</Label>
         <TagInput
@@ -352,13 +293,11 @@ function ProfileForm() {
         />
       </div>
 
-      {/* Work Type */}
       <div className="flex flex-col gap-2">
         <Label>{t("workType")}</Label>
         <div className="flex gap-2">{workTypeButtons}</div>
       </div>
 
-      {/* Current Company */}
       <div className="flex flex-col gap-2">
         <Label>{t("currentCompany")}</Label>
         <Input
@@ -374,7 +313,6 @@ function ProfileForm() {
         />
       </div>
 
-      {/* Current Position */}
       <div className="flex flex-col gap-2">
         <Label>{t("currentPosition")}</Label>
         <Input
@@ -390,7 +328,6 @@ function ProfileForm() {
         />
       </div>
 
-      {/* Save */}
       <Button onClick={handleSave} disabled={state.saving} className="w-full">
         {state.saving ? tc("loading") : tc("save")}
       </Button>
