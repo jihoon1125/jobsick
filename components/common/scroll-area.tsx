@@ -12,7 +12,7 @@ function ScrollArea({ children }: Props) {
     <OverlayScrollbarsComponent
       defer
       element="div"
-      className="min-h-0 flex-1"
+      className="scroll-area-root min-h-0 flex-1"
       options={{
         scrollbars: {
           theme: "os-theme-custom",

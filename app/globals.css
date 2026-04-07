@@ -143,6 +143,12 @@
   }
 }
 
+.scroll-area-root [data-overlayscrollbars-contents] {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
 .os-theme-custom {
   --os-size: 0.625rem;
   --os-padding-perpendicular: 2px;
