@@ -26,46 +26,51 @@ The codebase should reflect production-level quality and conventions.
 
 ## Folder Structure
 
+All application code lives under `src/`. The project root only
+contains config and meta files. Import alias `@/*` resolves to
+`./src/*`.
+
 ```
-app/                         # Next.js routing + pages
-├── layout.tsx               # Root layout (providers, global UI)
-├── page.tsx                 # Landing page
-├── error.tsx                # Global error boundary
-├── not-found.tsx            # 404 page
-├── globals.css              # Tailwind + shadcn global styles
-├── (auth)/                  # Auth routes (not in URL)
-│   └── login/
-│       └── page.tsx
-├── dashboard/
-│   ├── layout.tsx           # Dashboard shell layout
-│   └── page.tsx
-├── analyze/
-│   └── page.tsx
-└── api/                     # Server-only API routes
-    └── [feature]/
-        └── route.ts
+src/
+├── app/                     # Next.js routing + pages
+│   ├── layout.tsx           # Root layout (providers, global UI)
+│   ├── page.tsx             # Landing page
+│   ├── error.tsx            # Global error boundary
+│   ├── not-found.tsx        # 404 page
+│   ├── template.tsx         # Page transition wrapper
+│   ├── globals.css          # Tailwind + shadcn global styles
+│   ├── (auth)/              # Auth routes (not in URL)
+│   │   └── login/
+│   ├── dashboard/
+│   ├── profile/
+│   ├── resumes/
+│   ├── companies/
+│   ├── analyze/
+│   └── api/                 # Server-only API routes
+│       └── [feature]/route.ts
+├── components/
+│   ├── ui/                  # shadcn generated — leave as-is
+│   ├── common/              # App-wide shared components
+│   └── [domain]/            # Domain-specific components
+├── lib/
+│   ├── supabase/
+│   │   ├── client.ts        # Browser Supabase client
+│   │   ├── server.ts        # Server Supabase client
+│   │   └── middleware.ts    # Session refresh helper
+│   ├── errors.ts
+│   ├── pdf.ts               # Client-side PDF parsing
+│   └── utils.ts             # cn, etc.
+├── hooks/                   # Shared custom hooks (2+ usages)
+├── atoms/                   # Jotai atoms (global client state)
+├── types/                   # Global TypeScript types
+├── mocks/                   # MSW handlers and server setup
+├── i18n/                    # next-intl config
+├── messages/                # ko.json, en.json
+└── middleware.ts            # Next.js middleware
 
-components/
-├── ui/                      # shadcn generated — minimal modifications
-├── shared/                  # App-wide shared components
-└── [domain]/                # Domain-specific components
-    ├── [component].tsx
-    ├── [component].test.tsx  # Unit/component test
-    └── [component].stories.tsx # Storybook story
-
-lib/
-├── supabase/
-│   ├── client.ts            # Browser Supabase client
-│   └── server.ts            # Server Supabase client
-├── errors.ts                # Error class definitions
-└── utils.ts                 # Shared utilities (cn, etc.)
-
-hooks/                       # Shared custom hooks (used in 2+ places)
-atoms/                       # Jotai atoms (global client state)
-types/                       # Global TypeScript type definitions
-mocks/                       # MSW handlers and server setup
 e2e/                         # Playwright E2E tests
 .storybook/                  # Storybook configuration
+public/                      # Static assets
 ```
 
 ---
