@@ -142,3 +142,23 @@
     caret-color: var(--foreground);
   }
 }
+
+.os-theme-custom {
+  --os-size: 0.625rem;
+  --os-padding-perpendicular: 2px;
+  --os-padding-axis: 2px;
+  --os-handle-border-radius: 0.5rem;
+  --os-handle-bg: oklch(0.85 0.01 100);
+  --os-handle-bg-hover: oklch(0.7 0.02 100);
+  --os-handle-bg-active: oklch(0.55 0.04 100);
+  --os-handle-min-size: 32px;
+}
+
+.os-theme-custom:hover {
+  --os-size: 0.875rem;
+}
+
+.os-scrollbar-handle {
+  background-clip: padding-box;
+  border: 0.15rem solid transparent;
+}

@@ -9,7 +9,7 @@ async function Header() {
   } = await supabase.auth.getUser();
 
   return (
-    <header className="border-b">
+    <header className="sticky top-0 z-40 border-b bg-background/80 backdrop-blur">
       <div className="flex h-14 items-center justify-between px-6">
         <Link href="/" className="text-lg font-bold">
           Jobsick

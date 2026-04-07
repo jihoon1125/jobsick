@@ -10,7 +10,7 @@ import {
   Plus,
   Trash2,
 } from "lucide-react";
-import { AnimatePresence, motion } from "motion/react";
+import { motion } from "motion/react";
 import { Button } from "@/components/ui/button";
 import {
   AlertDialog,
@@ -112,10 +112,8 @@ function CompanyList({ companies }: Props) {
   const recCards = visibleRecs.map((rec, i) => (
     <motion.button
       key={rec.name}
-      layout
-      initial={i >= 6 ? { opacity: 0, y: -8 } : false}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -8 }}
+      initial={i >= 6 ? { opacity: 0 } : false}
+      animate={{ opacity: 1 }}
       transition={{
         duration: 0.2,
         delay: i >= 6 ? (i - 6) * 0.03 : 0,
@@ -175,9 +173,9 @@ function CompanyList({ companies }: Props) {
               {recommendations.length}
             </span>
           </h2>
-          <motion.div layout className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-            <AnimatePresence>{recCards}</AnimatePresence>
-          </motion.div>
+          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+            {recCards}
+          </div>
           {hiddenCount > 0 && (
             <Button
               variant="ghost"

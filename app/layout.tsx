@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
 import { Header } from "@/components/common/header";
+import { ScrollArea } from "@/components/common/scroll-area";
 import { Providers } from "./providers";
 import "./globals.css";
 
@@ -39,11 +40,11 @@ export default async function RootLayout({
       `}
       suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col">
+      <body className="h-full overflow-hidden flex flex-col">
         <NextIntlClientProvider locale={locale} messages={messages}>
           <Providers>
             <Header />
-            {children}
+            <ScrollArea>{children}</ScrollArea>
           </Providers>
         </NextIntlClientProvider>
       </body>
