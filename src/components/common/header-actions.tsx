@@ -3,7 +3,7 @@
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useCallback, useState } from "react";
-import { Briefcase, FileText, User as UserIcon } from "lucide-react";
+import { Briefcase, FileText, KeyRound, User as UserIcon } from "lucide-react";
 import type { User } from "@supabase/supabase-js";
 import { Button } from "@/components/ui/button";
 import {
@@ -54,6 +54,10 @@ function HeaderActions({ user }: Props) {
               <DropdownMenuItem render={<Link href="/companies" />}>
                 <Briefcase className="size-4" />
                 {tm("companies")}
+              </DropdownMenuItem>
+              <DropdownMenuItem render={<Link href="/profile/api-key" />}>
+                <KeyRound className="size-4" />
+                {tm("apiKey")}
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

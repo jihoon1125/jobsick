@@ -1,6 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 import { Plus } from "lucide-react";
+import { PageContainer } from "@/components/common/page-container";
 import { createClient } from "@/lib/supabase/server";
 import { ResumeList } from "./resume-list";
 
@@ -20,9 +21,9 @@ export default async function ResumesPage() {
     : { data: [] };
 
   return (
-    <main className="mx-auto w-full max-w-3xl p-8">
-      <div className="mb-8 flex items-center justify-between">
-        <h1 className="text-2xl font-bold">{t("title")}</h1>
+    <PageContainer
+      title={t("title")}
+      actions={
         <Link
           href="/resumes/new"
           className="inline-flex h-8 items-center gap-1.5 rounded-lg bg-primary px-3 text-sm font-medium text-primary-foreground hover:bg-primary/90"
@@ -30,8 +31,9 @@ export default async function ResumesPage() {
           <Plus className="size-4" />
           {t("newResume")}
         </Link>
-      </div>
+      }
+    >
       <ResumeList resumes={resumes ?? []} />
-    </main>
+    </PageContainer>
   );
 }

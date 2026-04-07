@@ -22,7 +22,8 @@
   "menu": {
     "profile": "Profile",
     "resumes": "Resumes",
-    "companies": "Companies"
+    "companies": "Companies",
+    "apiKey": "API Key"
   },
   "auth": {
     "login": "Sign In",
@@ -97,7 +98,21 @@
     "onsite": "Onsite",
     "currentCompany": "Current Company",
     "currentPosition": "Current Position",
-    "saved": "Profile saved successfully."
+    "saved": "Profile saved successfully.",
+    "apiKey": {
+      "title": "Gemini API Key",
+      "missing": "A Gemini API key is required to use analysis features.",
+      "registered": "Your API key is registered.",
+      "register": "Register key",
+      "reregister": "Re-register",
+      "remove": "Remove",
+      "placeholder": "AIza...",
+      "guide": "Get a free key from Google AI Studio.",
+      "saving": "Saving...",
+      "removing": "Removing...",
+      "removeConfirm": "Remove API Key",
+      "removeConfirmDesc": "Remove the registered API key? Analysis features will be unavailable."
+    }
   },
   "error": {
     "pageTitle": "Something went wrong",

@@ -1,4 +1,5 @@
 import { getTranslations } from "next-intl/server";
+import { PageContainer } from "@/components/common/page-container";
 import { createClient } from "@/lib/supabase/server";
 import { CompanyList } from "./company-list";
 
@@ -18,12 +19,8 @@ export default async function CompaniesPage() {
     : { data: [] };
 
   return (
-    <main className="mx-auto w-full max-w-3xl p-8">
-      <div className="mb-2">
-        <h1 className="text-2xl font-bold">{t("title")}</h1>
-        <p className="mt-1 text-sm text-muted-foreground">{t("description")}</p>
-      </div>
+    <PageContainer title={t("title")} description={t("description")}>
       <CompanyList companies={companies ?? []} />
-    </main>
+    </PageContainer>
   );
 }

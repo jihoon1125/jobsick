@@ -1,5 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { createClient } from "@/lib/supabase/server";
+import { PageContainer } from "@/components/common/page-container";
 import { ProfileForm } from "./profile-form";
 
 interface TagRow {
@@ -76,8 +77,7 @@ export default async function ProfilePage() {
   }));
 
   return (
-    <main className="mx-auto w-full max-w-2xl p-8">
-      <h1 className="mb-8 text-2xl font-bold">{t("title")}</h1>
+    <PageContainer title={t("title")}>
       <ProfileForm
         initialPositions={initialPositions}
         initialSkills={initialSkills}
@@ -91,6 +91,6 @@ export default async function ProfilePage() {
         positionSuggestions={positionSuggestions}
         skillSuggestions={skillSuggestions}
       />
-    </main>
+    </PageContainer>
   );
 }

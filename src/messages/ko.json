@@ -22,7 +22,8 @@
   "menu": {
     "profile": "프로필",
     "resumes": "이력서",
-    "companies": "관심 회사"
+    "companies": "관심 회사",
+    "apiKey": "API 키"
   },
   "auth": {
     "login": "로그인",
@@ -97,7 +98,21 @@
     "onsite": "출근",
     "currentCompany": "현재 회사",
     "currentPosition": "현재 직무",
-    "saved": "프로필이 저장되었습니다."
+    "saved": "프로필이 저장되었습니다.",
+    "apiKey": {
+      "title": "Gemini API 키",
+      "missing": "분석 기능을 사용하려면 Gemini API 키가 필요합니다.",
+      "registered": "API 키가 등록되어 있습니다.",
+      "register": "키 등록하기",
+      "reregister": "다시 등록",
+      "remove": "삭제",
+      "placeholder": "AIza...",
+      "guide": "Google AI Studio에서 무료로 발급받을 수 있습니다.",
+      "saving": "저장 중...",
+      "removing": "삭제 중...",
+      "removeConfirm": "API 키 삭제",
+      "removeConfirmDesc": "등록된 API 키를 삭제하시겠습니까? 분석 기능을 사용할 수 없게 됩니다."
+    }
   },
   "error": {
     "pageTitle": "문제가 발생했습니다",

@@ -52,3 +52,6 @@ storybook-static/
 # vscode
 .vscode/*
 !.vscode/settings.json
+
+# personal notes (not for public repo)
+docs/HUMAN_CONTRIBUTIONS.md
