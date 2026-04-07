@@ -9,13 +9,20 @@
     "cancel": "Cancel",
     "delete": "Delete",
     "edit": "Edit",
-    "confirm": "Confirm"
+    "confirm": "Confirm",
+    "loadMore": "Load more",
+    "collapse": "Collapse"
   },
   "home": {
     "title": "Jobsick",
     "description": "Paste a job posting URL or text to get a comprehensive analysis — resume matching, company reputation, and salary fit.",
     "cta": "Get Started",
     "learnMore": "Learn More"
+  },
+  "menu": {
+    "profile": "Profile",
+    "resumes": "Resumes",
+    "companies": "Companies"
   },
   "auth": {
     "login": "Sign In",
@@ -33,6 +40,24 @@
   "analyze": {
     "title": "Job Posting Analysis",
     "inputPlaceholder": "Enter a job posting URL or text."
+  },
+  "company": {
+    "title": "Companies",
+    "description": "Track careers pages of companies you're interested in.",
+    "myCompanies": "My Companies",
+    "recommended": "Recommended",
+    "addCompany": "Add Company",
+    "name": "Company Name",
+    "namePlaceholder": "e.g., Toss",
+    "careersUrl": "Careers Page URL",
+    "careersUrlPlaceholder": "https://...",
+    "notes": "Notes",
+    "notesPlaceholder": "Optional",
+    "deleteConfirm": "Delete Company",
+    "deleteConfirmDesc": "Remove this company from your list?",
+    "noCompanies": "No companies yet.",
+    "addFromRecommended": "Add from recommended below.",
+    "showMoreCount": "Show {count} more"
   },
   "resume": {
     "title": "Resumes",

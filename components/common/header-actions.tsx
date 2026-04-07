@@ -3,9 +3,15 @@
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useCallback, useState } from "react";
-import { FileText, User as UserIcon } from "lucide-react";
+import { Briefcase, FileText, User as UserIcon } from "lucide-react";
 import type { User } from "@supabase/supabase-js";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { LocaleToggle } from "./locale-toggle";
 import { LoginModal } from "./login-modal";
 
@@ -15,7 +21,7 @@ interface Props {
 
 function HeaderActions({ user }: Props) {
   const t = useTranslations("auth");
-  const tr = useTranslations("resume");
+  const tm = useTranslations("menu");
   const [loginOpen, setLoginOpen] = useState(false);
 
   const handleLogout = useCallback(async () => {
@@ -30,19 +36,27 @@ function HeaderActions({ user }: Props) {
       <LocaleToggle />
       {user ? (
         <>
-          <Link
-            href="/resumes"
-            className="inline-flex items-center gap-1.5 rounded-md px-2 py-1.5 text-sm hover:bg-accent"
-          >
-            <FileText className="size-4" />
-            {tr("title")}
-          </Link>
-          <Link
-            href="/profile"
-            className="inline-flex items-center justify-center rounded-md p-2 text-sm hover:bg-accent"
-          >
-            <UserIcon className="size-4" />
-          </Link>
+          <DropdownMenu>
+            <DropdownMenuTrigger
+              render={<Button variant="ghost" size="icon-sm" />}
+            >
+              <UserIcon className="size-4" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem render={<Link href="/profile" />}>
+                <UserIcon className="size-4" />
+                {tm("profile")}
+              </DropdownMenuItem>
+              <DropdownMenuItem render={<Link href="/resumes" />}>
+                <FileText className="size-4" />
+                {tm("resumes")}
+              </DropdownMenuItem>
+              <DropdownMenuItem render={<Link href="/companies" />}>
+                <Briefcase className="size-4" />
+                {tm("companies")}
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
           <Button variant="ghost" size="sm" onClick={handleLogout}>
             {t("logout")}
           </Button>
