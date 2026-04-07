@@ -2,9 +2,8 @@
 
 import { useTranslations } from "next-intl";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
-import { User as UserIcon } from "lucide-react";
+import { FileText, User as UserIcon } from "lucide-react";
 import type { User } from "@supabase/supabase-js";
 import { Button } from "@/components/ui/button";
 import { LocaleToggle } from "./locale-toggle";
@@ -16,6 +15,7 @@ interface Props {
 
 function HeaderActions({ user }: Props) {
   const t = useTranslations("auth");
+  const tr = useTranslations("resume");
   const [loginOpen, setLoginOpen] = useState(false);
 
   const handleLogout = useCallback(async () => {
@@ -30,6 +30,13 @@ function HeaderActions({ user }: Props) {
       <LocaleToggle />
       {user ? (
         <>
+          <Link
+            href="/resumes"
+            className="inline-flex items-center gap-1.5 rounded-md px-2 py-1.5 text-sm hover:bg-accent"
+          >
+            <FileText className="size-4" />
+            {tr("title")}
+          </Link>
           <Link
             href="/profile"
             className="inline-flex items-center justify-center rounded-md p-2 text-sm hover:bg-accent"

@@ -34,6 +34,24 @@
     "title": "채용공고 분석",
     "inputPlaceholder": "채용공고 URL 또는 텍스트를 입력하세요."
   },
+  "resume": {
+    "title": "이력서",
+    "newResume": "새 이력서",
+    "noResumes": "등록된 이력서가 없습니다.",
+    "addFirst": "첫 이력서를 등록해보세요.",
+    "resumeTitle": "이력서 제목",
+    "resumeTitlePlaceholder": "예: 토스 FE 엔지니어용",
+    "pdfFile": "이력서 PDF",
+    "uploadHint": "클릭해서 PDF 파일 선택",
+    "pdfOnly": "PDF 파일만 업로드 가능합니다.",
+    "tags": "태그",
+    "tagsPlaceholder": "포지션, 회사 등",
+    "isDefault": "기본 이력서로 설정",
+    "defaultBadge": "기본",
+    "create": "이력서 등록",
+    "deleteConfirm": "이력서 삭제",
+    "deleteConfirmDesc": "이 이력서를 삭제하시겠습니까? 되돌릴 수 없습니다."
+  },
   "profile": {
     "title": "프로필 설정",
     "position": "희망 직군",

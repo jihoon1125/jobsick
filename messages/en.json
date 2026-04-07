@@ -34,6 +34,24 @@
     "title": "Job Posting Analysis",
     "inputPlaceholder": "Enter a job posting URL or text."
   },
+  "resume": {
+    "title": "Resumes",
+    "newResume": "New Resume",
+    "noResumes": "No resumes yet.",
+    "addFirst": "Add your first resume.",
+    "resumeTitle": "Resume Title",
+    "resumeTitlePlaceholder": "e.g., Toss FE Engineer",
+    "pdfFile": "Resume PDF",
+    "uploadHint": "Click to select a PDF file",
+    "pdfOnly": "Only PDF files are allowed.",
+    "tags": "Tags",
+    "tagsPlaceholder": "Position, company, etc.",
+    "isDefault": "Set as default resume",
+    "defaultBadge": "Default",
+    "create": "Create Resume",
+    "deleteConfirm": "Delete Resume",
+    "deleteConfirmDesc": "Are you sure you want to delete this resume? This cannot be undone."
+  },
   "profile": {
     "title": "Profile Settings",
     "position": "Desired Position",
